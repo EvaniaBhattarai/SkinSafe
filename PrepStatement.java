@@ -56,7 +56,7 @@ public class PrepStatement {
             } else {
                 this.ps.setDate(position, newDate);
             }
-            return ""; // no error
+            return ""; 
         } catch (Exception e) {
             String msg = " PrepStatement: Exception in setDate(). Sql is " + this.sql
                     + ", position: " + position + ". Error Msg: " + e.getMessage();
@@ -76,7 +76,7 @@ public class PrepStatement {
             } else {
                 this.ps.setInt(position, newInt);
             }
-            return ""; // no error
+            return "";
         } catch (Exception e) {
             String msg = " PrepStatement: Exception in setInt(). Sql is " + this.sql
                     + ", position: " + position + ". Error Msg: " + e.getMessage();
@@ -96,7 +96,7 @@ public class PrepStatement {
             } else {
                 this.ps.setBigDecimal(position, newBigDecimal);
             }
-            return ""; // no error
+            return "";
         } catch (Exception e) {
             String msg = " PrepStatement: Exception in setBigDec(). Sql is " + this.sql
                     + ", position: " + position + ". Error Msg: " + e.getMessage();
@@ -114,7 +114,7 @@ public class PrepStatement {
                 newString = "";
             }
             this.ps.setString(position, newString);
-            return ""; // no error
+            return ""; 
         } catch (Exception e) {
             String msg = " PrepStatement: Exception in setString(). Sql is " + this.sql
                     + ", position: " + position + ". Error Msg: " + e.getMessage();
@@ -124,8 +124,7 @@ public class PrepStatement {
         }
     }
 
-    // returns the number of rows affected - like PreparedStatement.executeUpdate()
-    // would have done
+    // returns the number of rows affected
     public int executeUpdate() {
         try {
             int numRows = this.ps.executeUpdate();
