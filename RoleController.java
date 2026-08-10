@@ -15,8 +15,8 @@ public class RoleController {
         StringDataList list = new StringDataList(); // dbError empty, list empty
         DbConn dbc = new DbConn();
         list = RoleView.getAllRoles(dbc);
-        dbc.close(); // EVERY code path that opens a db connection must close it
-                     // (or else you have a database connection leak).
+        dbc.close();
+        
         return Json.toJson(list);
     }
 }
