@@ -1,0 +1,20 @@
+.blog {
+    background-color: rgb(206, 224, 171);
+    padding:1rem;
+}
+.blog h2 {
+    color:rgb(40, 46, 83);
+    font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+    margin-top:0rem;
+}
+.blog a.externallink {
+    background-color: aquamarine;
+    padding: 0.25rem 0.5rem;
+    text-decoration: none;
+}
+.blog a.externallink:visited {
+    color: rgb(219, 164, 164);
+}
+.blog a.externallink:hover {
+    background-color: rgba(223, 235, 12, 0.945);
+}

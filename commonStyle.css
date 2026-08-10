@@ -1,0 +1,193 @@
+/*  Use ONLY the "slash star ... star slash" style comment inside a style sheet */
+
+/* Don't want tiny white border inside browser window - apply to html and body. */
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Serif", Georgia, 'Times New Roman', Times, serif;
+    /* no tail font is more readable for small font */
+}
+
+#titleNav {
+    /* titleNav is fixed, always at the top */
+    /* position fixed removes the element from the normal flow, placing it where you specify with top/bottom, left/right */
+    position: fixed;
+    top: 0rem;
+    left: 0rem;
+    z-index: 1;
+    /* To make sure titleNav is on top of content, give it a higher z-index than content 
+                    (content would have default value of zero). */
+    width: 100%;
+    padding-bottom: 1rem;
+    font-weight: bold;
+    box-shadow: 0.1rem 0.1rem 0.5rem black;
+    /* give a little "3D"  effect to the bottom of the title area */
+}
+
+
+#pageTitle {
+    /* no change */
+    padding: 1rem;
+    padding-bottom: 0rem;
+    font-size: 2rem;
+    font-style: italic;
+    font-family: serif;
+    float: left;
+    white-space: nowrap;
+}
+
+#nav {
+    /* fix the nav bar */
+    float: right;
+    font-size: 0.75rem;
+    padding-top: 1.5rem;
+    padding-right: 0.25rem;
+    white-space: nowrap;
+}
+
+
+#nav a {
+    /* no change */
+    text-decoration: none;
+    /* Do not want links in "nav" to be underlined */
+}
+
+#content {
+    /* Added padding top and bottom to prevent top/bottom content from getting hidden under titleNav/footer */
+    padding: 1rem;
+    padding-top: 5rem;
+    /* prevent the top of the content from getting hidden under the fixed titleNav */
+    padding-bottom: 4rem;
+    /* prevent the the bottom of the content from getting hidden under the fixed footer */
+}
+
+#footer {
+    /* footer fixed, always at the bottom */
+
+    position: fixed;
+    bottom: 0rem;
+    left: 0rem;
+    z-index: 1;
+    /* make sure footer is on top of content which would have default z-index value of 0 */
+
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    box-shadow: 0rem 0rem 5rem black;
+    /* give a little "3D"  effect to the top of the footer area */
+}
+.userForm {
+    max-width: 650px;
+    margin: 30px auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 30px 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-height: 600px;
+}
+
+.userForm h3 {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 8px;
+}
+
+.userForm-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.userForm-label {
+    padding: 8px 12px 8px 0;
+    font-weight: bold;
+    color: #555;
+    white-space: nowrap;
+    width: 140px;
+}
+
+.userForm-input {
+    width: 280px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    background-color: #fff;
+}
+
+.userForm-input:disabled {
+    background-color: #e9e9e9;
+    color: #888;
+}
+
+.userForm-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 4px rgba(76, 175, 80, 0.3);
+}
+
+.userForm-select {
+    width: 280px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    background-color: #fff;
+}
+
+.userForm-select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.userForm-error {
+    color: red;
+    font-size: 0.82rem;
+    padding-left: 10px;
+}
+
+.userForm-btn {
+    margin-top: 10px;
+    padding: 8px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.userForm-btn:hover {
+    background-color: #45a049;
+}
+
+.userForm-success {
+    color: green;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.userForm-recordError {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.loginForm {
+    text-align: center;
+    border: 0.05rem solid;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+.profileBlock{
+    text-align: center;
+    border: 0.05rem solid;
+    padding: 2rem;
+    border-radius: 1rem;
+
+}

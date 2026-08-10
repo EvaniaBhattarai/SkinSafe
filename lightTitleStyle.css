@@ -1,0 +1,23 @@
+
+body { 
+    background-color: rgb(160, 200, 180); /* this is the turqoise color */
+    color: black;  /* color of font */
+}
+
+#titleNav { 
+    background-color:black;
+    color: white;
+}
+
+#nav, #nav a, #nav span { 
+    color: #C8C8C8; /* light gray: to provide color for links, you have to style the "a" tag */
+}
+
+#footer { /* footer fixed, always at the bottom */
+    background-color:black;
+    color: white; 
+}
+
+.dropDown {
+    background-color:black;
+}

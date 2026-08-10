@@ -1,0 +1,28 @@
+/*  This is an example of how the consumer (of the drop down framework which is dropDownFW.js plus
+    dropDown.css) can override default FW styling to make the nav bar look the way they want. 
+    In the HTML page, put the reference to YOUR drop down style sheet (e.g., myDropDown.css) 
+    AFTER the reference to the FW's CSS style sheet (e.g., dropDown.css). That way your styles 
+    will override the FW's.
+*/
+
+.dropDown, .dropDown a {
+    color: #f5f0c0; /* light yellow text for nav bar links */
+    font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+}
+
+.dropDown .dropContent a {
+    color: #1a3a4a; 
+}
+
+.dropDown .dropContent {
+    background-color: #d4edda; /* light green background for dropdown */
+    border: 1px solid #9be0af; /
+}
+
+.dropDown a:visited { color: #153956; } /* visited link is soft green */
+.dropDown a:hover { color: #ffd700; } 
+
+.dropDown .dropContent a:hover {
+    color: #5d9ec4; /* dark blue on hover inside dropdown for clear feedback */
+    background-color: #b8e0c8; /* slightly darker green highlight on hover */
+}

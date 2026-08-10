@@ -1,0 +1,72 @@
+/* Modal Content */
+.modalStyle {
+    position: fixed;
+    z-index: 4;
+
+    max-height: 220px;
+    overflow-y: auto;
+
+    left: 5%;
+    width: 85%;
+
+    padding: 24px;
+    padding-top: 14px;
+
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
+    border: 1.5px solid #81c784;
+    box-shadow: 0px 8px 24px rgba(44, 110, 73, 0.25);
+
+    top: 150px;
+    opacity: 1;
+    transition: opacity 1.25s, top 0.75s;
+
+    font-family: 'Georgia', serif;
+    color: #1b4332;
+}
+
+.modalStyle.fadeOut {
+    opacity: 0;
+    top: -1000px;
+}
+
+/* The Close Button, looks like "X" */
+.modalStyle .x {
+    float: right;
+    color: #2d6a4f;
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 2ex;
+}
+
+.modalStyle .x:hover {
+    color: #1b4332;
+    cursor: pointer;
+}
+
+.modalStyle p {
+    font-size: 1rem;
+    color: #1b4332;
+    line-height: 1.6;
+}
+
+.modalStyle .buttonArea {
+    float: right;
+}
+
+.modalStyle INPUT {
+    margin-left: 1ex;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #2d6a4f;
+    color: white;
+    font-size: 0.9rem;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modalStyle INPUT:hover {
+    background-color: #1b4332;
+}

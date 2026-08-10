@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    font-family: "Serif", Georgia, 'Times New Roman', Times, serif;
+    background-color: #f4f9fb;
+    color: #1f2d3d;
+    line-height: 1.6;
+}
+#titleNav {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: #05668D;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+}
+#title {
+    white-space: nowrap;
+}
+#nav {
+    display: flex;
+    gap: 1.25rem;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+#content {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+#intro {
+    background-image: url("../images/backgroundimage.avif");
+    background-size: cover;       /* Makes image cover entire div */
+    background-position: center;  /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+    padding: 3rem;                /* Space so text isn’t stuck on edges */
+    color: #1f2d3d;               /* Ensure text is readable on image */
+}
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    background-color: #05668D;
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+    padding: 1rem;
+    white-space: nowrap;
+}
+@media (max-width: 50rem) {
+
+    #titleNav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #nav {
+        margin-top: 0.5rem;
+    }
+    #content {
+        padding-top: 9rem;
+    }
+}
