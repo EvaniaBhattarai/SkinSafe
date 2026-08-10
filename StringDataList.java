@@ -1,4 +1,4 @@
-package com.model.product;
+package com.model.webUser;
 
 import java.util.ArrayList;
 
@@ -8,15 +8,15 @@ import java.util.ArrayList;
 public class StringDataList {
 
     public String dbError = "";
-    public ArrayList <StringData> productList = new ArrayList <StringData>();
+    public ArrayList <StringData> webUserList = new ArrayList <StringData>();
 
-    // Default constructor leaves StringDataList objects nicely set with properties
+    // Default constructor leaves StringDataList objects nicely set with properties 
     // indicating no database error and 0 elements in the list.
     public StringDataList() {
     }
 
     // Adds one StringData element to the array list of StringData elements
     public void add(StringData stringData) {
-        this.productList.add(stringData);
+        this.webUserList.add(stringData);
     }
 }

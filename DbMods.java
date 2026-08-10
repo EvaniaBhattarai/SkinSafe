@@ -1,27 +1,28 @@
-package com.model.product;
+package com.model.webUser;
 
 import com.dbUtils.*;
 
 public class DbMods {
 
     private static StringData validate(StringData inputData) {
-
         StringData errorMsgs = new StringData();
 
-        errorMsgs.name = Validate.stringMsg(inputData.name, 45, true);
-        errorMsgs.product_img = Validate.stringMsg(inputData.product_img, 200, false);
-        errorMsgs.category = Validate.stringMsg(inputData.category, 200, false);
-        errorMsgs.manufacturer = Validate.stringMsg(inputData.manufacturer, 45, false);
-        errorMsgs.price = Validate.decimalMsg(inputData.price, false);
-        errorMsgs.description = Validate.stringMsg(inputData.description, 255, false);
-        errorMsgs.web_user_id = Validate.integerMsg(inputData.web_user_id, true);
-        errorMsgs.rating = Validate.integerMsg(inputData.rating, false);
+        errorMsgs.userEmail = Validate.stringMsg(inputData.userEmail, 45, true);
+        errorMsgs.userPassword = Validate.stringMsg(inputData.userPassword, 45, true);
+
+        if (inputData.userPassword.compareTo(inputData.userPassword2) != 0) {
+            errorMsgs.userPassword2 = "Both passwords must match";
+        }
+
+        errorMsgs.userImage = Validate.stringMsg(inputData.userImage, 300, false);
+        errorMsgs.birthday = Validate.dateMsg(inputData.birthday, false);
+        errorMsgs.membershipFee = Validate.decimalMsg(inputData.membershipFee, false);
+        errorMsgs.userRoleId = Validate.integerMsg(inputData.userRoleId, true);
 
         return errorMsgs;
     }
 
     public static StringData insert(StringData insertData, DbConn dbc) {
-
         StringData errorMsgs = new StringData();
         errorMsgs = validate(insertData);
 
@@ -30,19 +31,16 @@ public class DbMods {
             return errorMsgs;
         }
 
-        String sql = "INSERT INTO product (name, img, category, manufacturer, " +
-                     "price, description, web_user_id, rating) " +
-                     "VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO web_user (user_email, user_password, user_image, membership_fee, birthday, " +
+                "user_role_id) VALUES (?,?,?,?,?,?)";
 
         PrepStatement pStatement = new PrepStatement(dbc, sql);
-        pStatement.setString(1, insertData.name);
-        pStatement.setString(2, insertData.product_img);
-        pStatement.setString(3, insertData.category);
-        pStatement.setString(4, insertData.manufacturer);
-        pStatement.setBigDecimal(5, Validate.convertDecimal(insertData.price));
-        pStatement.setString(6, insertData.description);
-        pStatement.setInt(7, Validate.convertInteger(insertData.web_user_id));
-        pStatement.setInt(8, Validate.convertInteger(insertData.rating));
+        pStatement.setString(1, insertData.userEmail);
+        pStatement.setString(2, insertData.userPassword);
+        pStatement.setString(3, insertData.userImage);
+        pStatement.setBigDecimal(4, Validate.convertDecimal(insertData.membershipFee));
+        pStatement.setDate(5, Validate.convertDate(insertData.birthday));
+        pStatement.setInt(6, Validate.convertInteger(insertData.userRoleId));
 
         int numRows = pStatement.executeUpdate();
         errorMsgs.errorMsg = pStatement.getErrorMsg();
@@ -52,42 +50,44 @@ public class DbMods {
                 errorMsgs.errorMsg = numRows + " records were inserted when exactly 1 was expected.";
             }
         } else if (errorMsgs.errorMsg.contains("foreign key")) {
-            errorMsgs.errorMsg = "Invalid Web User - " + errorMsgs.errorMsg;
+            errorMsgs.errorMsg = "Invalid User Role Id - " + errorMsgs.errorMsg;
         } else if (errorMsgs.errorMsg.contains("Duplicate entry")) {
-            errorMsgs.errorMsg = "That product name is already taken.";
+            errorMsgs.errorMsg = "That email address is already taken - " + errorMsgs.errorMsg;
         }
 
         return errorMsgs;
     }
 
-    public static StringData getById(DbConn dbc, String productId) {
+    public static StringData getById(DbConn dbc, String userId) {
         StringData sd = new StringData();
 
-        String sql = "SELECT product_id, name, img, category, manufacturer, " +
-                     "price, description, web_user_id, rating " +
-                     "FROM product WHERE product_id = ?";
+        String sql = "SELECT web_user_id, user_email, user_password, user_image, " +
+                "birthday, membership_fee, user_role_id " +
+                "FROM web_user WHERE web_user_id = ?";
         try {
             java.sql.PreparedStatement ps = dbc.getConn().prepareStatement(sql);
-            ps.setInt(1, Integer.parseInt(productId));
+            ps.setInt(1, Integer.parseInt(userId));
             java.sql.ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                sd.product_id    = rs.getString("product_id");
-                sd.name          = rs.getString("name")         != null ? rs.getString("name")         : "";
-                sd.product_img   = rs.getString("img")          != null ? rs.getString("img")           : "";
-                sd.category      = rs.getString("category")     != null ? rs.getString("category")      : "";
-                sd.manufacturer  = rs.getString("manufacturer") != null ? rs.getString("manufacturer")  : "";
-                sd.description   = rs.getString("description")  != null ? rs.getString("description")   : "";
-                sd.web_user_id   = rs.getString("web_user_id");
+                sd.webUserId = rs.getString("web_user_id");
+                sd.userEmail = rs.getString("user_email");
+                sd.userPassword = rs.getString("user_password");
+                sd.userImage = rs.getString("user_image") != null ? rs.getString("user_image") : "";
+                sd.userRoleId = rs.getString("user_role_id");
 
-                java.math.BigDecimal price = rs.getBigDecimal("price");
-                sd.price = (price != null) ? price.toString() : "";
+                java.sql.Date bd = rs.getDate("birthday");
+                if (bd != null) {
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy");
+                    sd.birthday = sdf.format(bd);
+                } else {
+                    sd.birthday = "";
+                }
 
-                Integer rating = rs.getObject("rating", Integer.class);
-                sd.rating = (rating != null) ? rating.toString() : "";
-
+                java.math.BigDecimal fee = rs.getBigDecimal("membership_fee");
+                sd.membershipFee = (fee != null) ? fee.toString() : "";
             } else {
-                sd.errorMsg = "No product found with id: " + productId;
+                sd.errorMsg = "No user found with id: " + userId;
             }
             rs.close();
             ps.close();
@@ -98,7 +98,6 @@ public class DbMods {
     }
 
     public static StringData update(StringData updateData, DbConn dbc) {
-
         StringData errorMsgs = new StringData();
         errorMsgs = validate(updateData);
 
@@ -107,20 +106,18 @@ public class DbMods {
             return errorMsgs;
         }
 
-        String sql = "UPDATE product SET name=?, img=?, category=?, manufacturer=?, " +
-                     "price=?, description=?, web_user_id=?, rating=? " +
-                     "WHERE product_id=?";
+        String sql = "UPDATE web_user SET user_email=?, user_password=?, user_image=?, " +
+                "membership_fee=?, birthday=?, user_role_id=? " +
+                "WHERE web_user_id=?";
 
         PrepStatement pStatement = new PrepStatement(dbc, sql);
-        pStatement.setString(1,     updateData.name);
-        pStatement.setString(2,     updateData.product_img);
-        pStatement.setString(3,     updateData.category);
-        pStatement.setString(4,     updateData.manufacturer);
-        pStatement.setBigDecimal(5, Validate.convertDecimal(updateData.price));
-        pStatement.setString(6,     updateData.description);
-        pStatement.setInt(7,        Validate.convertInteger(updateData.web_user_id));
-        pStatement.setInt(8,        Validate.convertInteger(updateData.rating));
-        pStatement.setInt(9,        Validate.convertInteger(updateData.product_id));
+        pStatement.setString(1, updateData.userEmail);
+        pStatement.setString(2, updateData.userPassword);
+        pStatement.setString(3, updateData.userImage);
+        pStatement.setBigDecimal(4, Validate.convertDecimal(updateData.membershipFee));
+        pStatement.setDate(5, Validate.convertDate(updateData.birthday));
+        pStatement.setInt(6, Validate.convertInteger(updateData.userRoleId));
+        pStatement.setInt(7, Validate.convertInteger(updateData.webUserId));
 
         int numRows = pStatement.executeUpdate();
         errorMsgs.errorMsg = pStatement.getErrorMsg();
@@ -130,14 +127,18 @@ public class DbMods {
                 errorMsgs.errorMsg = numRows + " records updated when exactly 1 was expected.";
             }
         } else if (errorMsgs.errorMsg.contains("Duplicate entry")) {
-            errorMsgs.errorMsg = "That product name is already taken.";
+            errorMsgs.errorMsg = "That email address is already taken.";
         }
 
         return errorMsgs;
     }
 
+    public static StringData logonFind(DbConn dbc, String email, String password) {
+        throw new UnsupportedOperationException("Unimplemented method 'logonFind'");
+    }
+
     // ===================== DELETE =====================
-    public static StringData delete(DbConn dbc, String productId) {
+    public static StringData delete(DbConn dbc, String userId) {
         StringData sd = new StringData();
 
         if (dbc.getErr() != null && dbc.getErr().length() > 0) {
@@ -146,30 +147,30 @@ public class DbMods {
             return sd;
         }
 
-        if (productId == null || productId.trim().length() == 0) {
-            sd.errorMsg = "Error: no productId provided.";
+        if (userId == null || userId.trim().length() == 0) {
+            sd.errorMsg = "Error: no userId provided.";
             return sd;
         }
 
         try {
-            String sql = "DELETE FROM product WHERE product_id = ?";
+            String sql = "DELETE FROM web_user WHERE web_user_id = ?";
             java.sql.PreparedStatement pst = dbc.getConn().prepareStatement(sql);
-            pst.setInt(1, Integer.parseInt(productId.trim()));
+            pst.setInt(1, Integer.parseInt(userId.trim()));
 
             int rowsDeleted = pst.executeUpdate();
             pst.close();
 
             if (rowsDeleted == 0) {
-                sd.errorMsg = "This product record must have already been deleted by another user. "
+                sd.errorMsg = "This user record must have already been deleted by another user. "
                             + "Please refresh the page.";
             }
             // errorMsg stays "" on success
 
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
-            sd.errorMsg = "This product could not be deleted because other records are linked to it. "
-                        + "Technical detail: " + e.getMessage();
+            sd.errorMsg = "This user could not be deleted because they have products associated "
+                        + "with their account. Technical detail: " + e.getMessage();
         } catch (Exception e) {
-            sd.errorMsg = "An unexpected error occurred while trying to delete the product. "
+            sd.errorMsg = "An unexpected error occurred while trying to delete the user. "
                         + "Technical detail: " + e.getMessage();
         }
 
