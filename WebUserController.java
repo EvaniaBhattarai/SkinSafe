@@ -136,7 +136,6 @@ public class WebUserController {
         return Json.toJson(errorData);
     }
 
-    // ===================== DELETE =====================
     @RequestMapping(value = "/webUser/delete", params = {"userId"}, produces = "application/json")
     public String deleteUser(@RequestParam("userId") String userId) {
         StringData sd = new StringData();
